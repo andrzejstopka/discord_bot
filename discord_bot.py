@@ -5,18 +5,20 @@ from discord.ext import commands
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-class MyBot(commands.Bot):
-    def __init__(self, command_prefix):
-        super().__init__(command_prefix)
+bot = commands.Bot(command_prefix="!")
 
-        @self.command(name="chat")
-        async def chat_response(ctx):
-            if ctx.message.author == self.user:
-                return
+@bot.event
+async def on_ready():
+    print(f"Logged in as {bot.user}")
 
-            await ctx.send('GPT')
+@bot.command()
+async def ping(ctx):
+    await ctx.send("pong")
 
-bot = MyBot(command_prefix='!')
+@bot.command()
+async def hello(ctx):
+    await ctx.send("Choo Choo")
+
 bot.run(TOKEN)
 
 
